@@ -2,17 +2,32 @@ package com.example.nowplayingmovies.util
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.nowplayingmovies.R
 import com.example.nowplayingmovies.data.Movie
 import com.example.nowplayingmovies.databinding.MovielistItemBinding
 
 class MovieListAdapter: ListAdapter<Movie, MovieListAdapter.MovieViewHolder>(DiffCallback) {
-    class MovieViewHolder(private var binding: MovielistItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    var favoriteButtonOnClick: ((Movie) -> Unit)? = null
+
+    inner class MovieViewHolder(private var binding: MovielistItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: Movie) {
             binding.movie = movie
             binding.executePendingBindings()
+            val star = binding.favoriteIcon
+            setStarImageResource(star, movie)
+            star.setOnClickListener {
+                movie.isFavorite = !movie.isFavorite
+                favoriteButtonOnClick?.invoke(movie)
+                setStarImageResource(star, movie)
+            }
+        }
+
+        private fun setStarImageResource(star: ImageView, movie: Movie) {
+            star.setImageResource(if(movie.isFavorite) R.drawable.ic_star_full else R.drawable.ic_star_border)
         }
     }
 
@@ -34,6 +49,5 @@ class MovieListAdapter: ListAdapter<Movie, MovieListAdapter.MovieViewHolder>(Dif
                 return oldItem.title == newItem.title
             }
         }
-
     }
 }

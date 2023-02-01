@@ -4,10 +4,11 @@ buildscript {
         // Versions for all the dependencies we plan to use. It's particularly useful for kotlin
         // where the versions of the plugin needs to be the same as the version of the
         // library defined in the app Gradle file
-        kotlin_version = "1.7.20"
-        retrofit_version = "2.9.0"
-        moshi_version = "1.13.0"
         coil_version = "1.1.1"
+        kotlin_version = "1.7.20"
+        moshi_version = "1.13.0"
+        retrofit_version = "2.9.0"
+        room_version = "2.5.0"
     }
     repositories {
         google()
